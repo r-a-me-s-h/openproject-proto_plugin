@@ -1,0 +1,27 @@
+<% html_title t(:label_kittens) %>
+
+
+<%= toolbar(title: t(:label_kittens)) do %>
+  <% if current_user.allowed_to?(:manage_kittens, @project, global: @project.nil?) %>
+    <li class="toolbar-item">
+      <%= link_to(new_kitten_plugin_project_kitten_path, class: 'button') do %>
+        <span class="button--text"><%= t(:label_kitten_new) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+
+<% if @kittens.empty? %>
+  <%= no_results_box %>
+<% else %>
+  <p>
+    These are the kittens:
+  </p>
+  <% @kittens.each do |kitten| %>
+    <%= tag 'kitten-component', data: { 'kitten-name': kitten.name } %>
+  <% end %>
+<% end %>
+
+
+<%= render "shared/kitty_image" %>
